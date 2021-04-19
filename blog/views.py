@@ -1,9 +1,6 @@
 from django.http import HttpResponse
 from django.shortcuts import render
-
-from blog.models import Post
-from blog.models import Post
-from blog.models import Post
+from django.views.generic import ListView
 from blog.models import Post
 
 
@@ -24,15 +21,31 @@ def get_posts(request):
         post = Post.objects.create(title='Good Morning',
                                     description='Have a good day')
         return HttpResponse('Put to the our posts')
-    elif method_post == 'Post':
-        post = Post.objects.post(title='')
-        return HttpResponse('Posting')
-    elif method_post == 'Get':
-        post = Post.objects.get(id(124))
-        return HttpResponse('Get to the our posts')
-    elif method_post == 'Delete':
-        post = Post.objects.delete(title='to the our')
-        return HttpResponse('Delete to the our posts')
-    elif method_post == 'Put':
-        post = Post.objects.put(title='Posts')
-        return HttpResponse('Put to the our posts')
+    elif method_post == 'GET':
+        post_all = Post.objects.all()
+        return HttpResponse('post_all')
+    elif method_post == 'DELETE':
+        post = Post.objects.get(id=7)
+        post.delete()
+        return HttpResponse('Delete this post')
+    elif method_post == 'PUT':
+        post = Post.objects.get(id=7)
+        post.title = 'Put to the our posts'
+        post.description = 'Put to the our post'
+        post.save()
+        return HttpResponse('Post was changed')
+
+
+# def get_all_posts(request):
+#     context = {
+#         'post': Post.objects.all()
+#     }
+#     return render(request, 'posts_list.html', context)
+
+
+class PostView(ListView):
+    model = Post
+    template_name = 'posts/posts_list.html'
+
+    def get_queryset(self):
+        return Post.objects.all()

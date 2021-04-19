@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
 </head>
 <body>
 <div>
@@ -12,8 +13,7 @@
         <li class="post">
             <p>{{ i.title }}</p>
             <p>{{ i.description }}</p>
-            <img src="{{ i.image.url }}" alt="">
-
+            <img class="post_image" src="{{ i.image.url }}" alt="">
         </li>
         {% endfor %}
     </ul>
